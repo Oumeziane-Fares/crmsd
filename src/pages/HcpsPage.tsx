@@ -11,12 +11,13 @@ export default function DataTables() {
         title="React.js Data Tables Dashboard | TailAdmin - React.js Admin Dashboard Template"
         description="This is React.js Data Tables Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
       />
-      <PageBreadcrumb pageTitle="Data Tables" />
+      <PageBreadcrumb pageTitle="Honoraires des HCPs" />
       <div className="space-y-5 sm:space-y-6">
-        <ComponentCard title="Data Table 3">
+        <ComponentCard title="Honoraires / Actes">
           <DataTableThree />
         </ComponentCard>
       </div>
     </>
   );
 }
+

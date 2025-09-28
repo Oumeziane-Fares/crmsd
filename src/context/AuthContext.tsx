@@ -1,4 +1,4 @@
-import  { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 // Define the shape of the user data and the context
 interface User {
@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const response = await fetch(API_URL, {
           method: 'POST',
           body: formData,
+          credentials: 'include', // <-- This line is the critical fix
         });
         const data = await response.json();
 
@@ -62,10 +63,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // You could also save a token to localStorage here if you were using one
   };
 
-  const logout = () => {
-    setIsAuthenticated(false);
-    setUser(null);
-    // Also call a backend endpoint to destroy the session if needed
+  const logout = async () => {
+    const API_URL = 'http://localhost/crmsd/finances-old/action.php';
+    const formData = new FormData();
+    // It's good practice to have a dedicated logout action in your backend
+    formData.append('action', 'logout'); 
+    
+    try {
+        await fetch(API_URL, {
+            method: 'POST',
+            body: formData,
+            credentials: 'include', // Include credentials on logout too
+        });
+    } catch (error) {
+        console.error("Backend logout failed:", error);
+    } finally {
+        setIsAuthenticated(false);
+        setUser(null);
+    }
   };
 
   // While checking the session, you might want to show a loader instead of the app
